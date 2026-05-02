@@ -42,9 +42,9 @@ export function SiteFooter() {
           <div>
             <h4 className="font-bold mb-4 text-foreground">{t("footer.contact")}</h4>
             <ul className="space-y-3 text-sm text-muted-foreground">
-              <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-gold" /> support@findex.eg</li>
-              <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-gold" /> 19000</li>
-              <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-gold" /> {t("common.cairo")}</li>
+              <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-gold" /><span>support@findex.eg</span></li>
+              <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-gold" /><span>19000</span></li>
+              <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-gold" /><span>{t("common.cairo")}</span></li>
             </ul>
           </div>
         </div>
