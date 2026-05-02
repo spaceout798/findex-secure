@@ -29,11 +29,11 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Findex — استرجع ما يهمك. احمِ ما هو موثوق." },
+      { name: "description", content: "فايندكس — منصة مصرية لربط أصحاب المجوهرات بمحلات الذهب الموثقة للإبلاغ عن المسروقات والمفقودات واستردادها." },
+      { name: "author", content: "Findex" },
+      { property: "og:title", content: "Findex — شبكة الثقة لمحلات المجوهرات" },
+      { property: "og:description", content: "أبلغ، اكتشف، واسترد المجوهرات المفقودة والمسروقة عبر شبكة محلات موثقة في مصر." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
@@ -42,6 +42,12 @@ export const Route = createRootRoute({
       {
         rel: "stylesheet",
         href: appCss,
+      },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800;900&family=Tajawal:wght@400;500;700&display=swap",
       },
     ],
   }),
@@ -52,7 +58,7 @@ export const Route = createRootRoute({
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="ar" dir="rtl">
       <head>
         <HeadContent />
       </head>
