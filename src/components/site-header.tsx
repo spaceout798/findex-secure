@@ -1,13 +1,15 @@
 import { Link } from "@tanstack/react-router";
-import { Shield, Menu, X } from "lucide-react";
+import { Shield, Menu, X, LayoutDashboard } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { LangToggle } from "@/components/lang-toggle";
+import { useAuth } from "@/lib/auth";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const { t } = useI18n();
+  const { user } = useAuth();
 
   const nav = [
     { to: "/", label: t("nav.home") },
@@ -48,14 +50,22 @@ export function SiteHeader() {
 
         <div className="hidden md:flex items-center gap-1">
           <LangToggle />
-          <Link to="/login">
-            <Button variant="ghost" size="sm">{t("nav.login")}</Button>
-          </Link>
-          <Link to="/register">
-            <Button size="sm" className="bg-gradient-gold text-primary-foreground hover:opacity-90 shadow-gold">
-              {t("nav.register")}
-            </Button>
-          </Link>
+          {user ? (
+            <Link to="/dashboard">
+              <Button size="sm" className="bg-gradient-gold text-primary-foreground hover:opacity-90 shadow-gold gap-2">
+                <LayoutDashboard className="h-4 w-4" /> Dashboard
+              </Button>
+            </Link>
+          ) : (
+            <>
+              <Link to="/login"><Button variant="ghost" size="sm">{t("nav.login")}</Button></Link>
+              <Link to="/register">
+                <Button size="sm" className="bg-gradient-gold text-primary-foreground hover:opacity-90 shadow-gold">
+                  {t("nav.register")}
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
 
         <div className="flex md:hidden items-center gap-1">
@@ -79,12 +89,20 @@ export function SiteHeader() {
             </Link>
           ))}
           <div className="flex gap-2 pt-2">
-            <Link to="/login" className="flex-1" onClick={() => setOpen(false)}>
-              <Button variant="outline" size="sm" className="w-full">{t("nav.login")}</Button>
-            </Link>
-            <Link to="/register" className="flex-1" onClick={() => setOpen(false)}>
-              <Button size="sm" className="w-full bg-gradient-gold text-primary-foreground">{t("nav.register")}</Button>
-            </Link>
+            {user ? (
+              <Link to="/dashboard" className="flex-1" onClick={() => setOpen(false)}>
+                <Button size="sm" className="w-full bg-gradient-gold text-primary-foreground">Dashboard</Button>
+              </Link>
+            ) : (
+              <>
+                <Link to="/login" className="flex-1" onClick={() => setOpen(false)}>
+                  <Button variant="outline" size="sm" className="w-full">{t("nav.login")}</Button>
+                </Link>
+                <Link to="/register" className="flex-1" onClick={() => setOpen(false)}>
+                  <Button size="sm" className="w-full bg-gradient-gold text-primary-foreground">{t("nav.register")}</Button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
