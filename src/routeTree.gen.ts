@@ -11,14 +11,17 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ShopsRouteImport } from './routes/shops'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as ForShopsRouteImport } from './routes/for-shops'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -31,6 +34,11 @@ const TermsRoute = TermsRouteImport.update({
 const ShopsRoute = ShopsRouteImport.update({
   id: '/shops',
   path: '/shops',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReportsRoute = ReportsRouteImport.update({
@@ -63,6 +71,11 @@ const HowItWorksRoute = HowItWorksRouteImport.update({
   path: '/how-it-works',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ForShopsRoute = ForShopsRouteImport.update({
   id: '/for-shops',
   path: '/for-shops',
@@ -71,6 +84,11 @@ const ForShopsRoute = ForShopsRouteImport.update({
 const FaqRoute = FaqRouteImport.update({
   id: '/faq',
   path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -93,14 +111,17 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
   '/for-shops': typeof ForShopsRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/how-it-works': typeof HowItWorksRoute
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/register': typeof RegisterRoute
   '/reports': typeof ReportsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/shops': typeof ShopsRoute
   '/terms': typeof TermsRoute
 }
@@ -108,14 +129,17 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
   '/for-shops': typeof ForShopsRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/how-it-works': typeof HowItWorksRoute
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/register': typeof RegisterRoute
   '/reports': typeof ReportsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/shops': typeof ShopsRoute
   '/terms': typeof TermsRoute
 }
@@ -124,14 +148,17 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
   '/for-shops': typeof ForShopsRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/how-it-works': typeof HowItWorksRoute
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/register': typeof RegisterRoute
   '/reports': typeof ReportsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/shops': typeof ShopsRoute
   '/terms': typeof TermsRoute
 }
@@ -141,14 +168,17 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/dashboard'
     | '/faq'
     | '/for-shops'
+    | '/forgot-password'
     | '/how-it-works'
     | '/login'
     | '/pricing'
     | '/privacy'
     | '/register'
     | '/reports'
+    | '/reset-password'
     | '/shops'
     | '/terms'
   fileRoutesByTo: FileRoutesByTo
@@ -156,14 +186,17 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/dashboard'
     | '/faq'
     | '/for-shops'
+    | '/forgot-password'
     | '/how-it-works'
     | '/login'
     | '/pricing'
     | '/privacy'
     | '/register'
     | '/reports'
+    | '/reset-password'
     | '/shops'
     | '/terms'
   id:
@@ -171,14 +204,17 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/dashboard'
     | '/faq'
     | '/for-shops'
+    | '/forgot-password'
     | '/how-it-works'
     | '/login'
     | '/pricing'
     | '/privacy'
     | '/register'
     | '/reports'
+    | '/reset-password'
     | '/shops'
     | '/terms'
   fileRoutesById: FileRoutesById
@@ -187,14 +223,17 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  DashboardRoute: typeof DashboardRoute
   FaqRoute: typeof FaqRoute
   ForShopsRoute: typeof ForShopsRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   HowItWorksRoute: typeof HowItWorksRoute
   LoginRoute: typeof LoginRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   RegisterRoute: typeof RegisterRoute
   ReportsRoute: typeof ReportsRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ShopsRoute: typeof ShopsRoute
   TermsRoute: typeof TermsRoute
 }
@@ -213,6 +252,13 @@ declare module '@tanstack/react-router' {
       path: '/shops'
       fullPath: '/shops'
       preLoaderRoute: typeof ShopsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reports': {
@@ -257,6 +303,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HowItWorksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/for-shops': {
       id: '/for-shops'
       path: '/for-shops'
@@ -269,6 +322,13 @@ declare module '@tanstack/react-router' {
       path: '/faq'
       fullPath: '/faq'
       preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -299,14 +359,17 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  DashboardRoute: DashboardRoute,
   FaqRoute: FaqRoute,
   ForShopsRoute: ForShopsRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   HowItWorksRoute: HowItWorksRoute,
   LoginRoute: LoginRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   RegisterRoute: RegisterRoute,
   ReportsRoute: ReportsRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   ShopsRoute: ShopsRoute,
   TermsRoute: TermsRoute,
 }
