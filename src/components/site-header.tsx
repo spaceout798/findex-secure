@@ -2,29 +2,33 @@ import { Link } from "@tanstack/react-router";
 import { Shield, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-
-const nav = [
-  { to: "/", label: "الرئيسية" },
-  { to: "/how-it-works", label: "كيف يعمل" },
-  { to: "/for-shops", label: "لمحلات المجوهرات" },
-  { to: "/shops", label: "المحلات الموثقة" },
-  { to: "/reports", label: "تصفح البلاغات" },
-  { to: "/pricing", label: "الأسعار" },
-  { to: "/about", label: "عن فايندكس" },
-] as const;
+import { useI18n } from "@/lib/i18n";
+import { LangToggle } from "@/components/lang-toggle";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const { t } = useI18n();
+
+  const nav = [
+    { to: "/", label: t("nav.home") },
+    { to: "/how-it-works", label: t("nav.how") },
+    { to: "/for-shops", label: t("nav.forShops") },
+    { to: "/shops", label: t("nav.shops") },
+    { to: "/reports", label: t("nav.reports") },
+    { to: "/pricing", label: t("nav.pricing") },
+    { to: "/about", label: t("nav.about") },
+  ] as const;
+
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-xl">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <Link to="/" className="flex items-center gap-2">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6 gap-4">
+        <Link to="/" className="flex items-center gap-2 flex-shrink-0">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-gold shadow-gold">
             <Shield className="h-5 w-5 text-primary-foreground" />
           </div>
           <div className="leading-tight">
             <div className="text-lg font-extrabold gold-text-gradient">Findex</div>
-            <div className="text-[10px] text-muted-foreground">شبكة الثقة للمجوهرات</div>
+            <div className="text-[10px] text-muted-foreground">{t("brand.tagline")}</div>
           </div>
         </Link>
 
@@ -42,20 +46,24 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-1">
+          <LangToggle />
           <Link to="/login">
-            <Button variant="ghost" size="sm">تسجيل الدخول</Button>
+            <Button variant="ghost" size="sm">{t("nav.login")}</Button>
           </Link>
           <Link to="/register">
             <Button size="sm" className="bg-gradient-gold text-primary-foreground hover:opacity-90 shadow-gold">
-              ابدأ الآن
+              {t("nav.register")}
             </Button>
           </Link>
         </div>
 
-        <button className="lg:hidden md:hidden p-2" onClick={() => setOpen(!open)} aria-label="القائمة">
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="flex md:hidden items-center gap-1">
+          <LangToggle compact />
+          <button className="p-2" onClick={() => setOpen(!open)} aria-label={t("nav.menu")}>
+            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
 
       {open && (
@@ -72,10 +80,10 @@ export function SiteHeader() {
           ))}
           <div className="flex gap-2 pt-2">
             <Link to="/login" className="flex-1" onClick={() => setOpen(false)}>
-              <Button variant="outline" size="sm" className="w-full">دخول</Button>
+              <Button variant="outline" size="sm" className="w-full">{t("nav.login")}</Button>
             </Link>
             <Link to="/register" className="flex-1" onClick={() => setOpen(false)}>
-              <Button size="sm" className="w-full bg-gradient-gold text-primary-foreground">ابدأ</Button>
+              <Button size="sm" className="w-full bg-gradient-gold text-primary-foreground">{t("nav.register")}</Button>
             </Link>
           </div>
         </div>
