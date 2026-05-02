@@ -1,0 +1,466 @@
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+
+export type Lang = "en" | "ar";
+
+type Dict = Record<string, string>;
+
+const en: Dict = {
+  // nav
+  "nav.home": "Home",
+  "nav.how": "How it works",
+  "nav.forShops": "For Shops",
+  "nav.shops": "Trusted Shops",
+  "nav.reports": "Browse Reports",
+  "nav.pricing": "Pricing",
+  "nav.about": "About",
+  "nav.faq": "FAQ",
+  "nav.contact": "Contact",
+  "nav.login": "Sign In",
+  "nav.register": "Get Started",
+  "nav.menu": "Menu",
+  "brand.tagline": "Jewelry Trust Network",
+
+  // hero
+  "hero.badge": "Egypt's #1 Jewelry Trust Network",
+  "hero.title.1": "Recover what matters.",
+  "hero.title.2": "Protect what's trusted.",
+  "hero.subtitle": "Findex connects jewelry owners with verified jewelry shops across Egypt to report, detect, and recover lost or stolen jewelry — faster.",
+  "hero.cta.report": "Report Lost Jewelry",
+  "hero.cta.shop": "Join as a Jewelry Shop",
+  "hero.trust.verified": "Verified shops",
+  "hero.trust.encrypted": "Encrypted data",
+  "hero.trust.alerts": "Instant alerts",
+  "hero.trust.certified": "Official certificates",
+
+  // stats
+  "stats.shops": "Verified shops",
+  "stats.reports": "Active reports",
+  "stats.governorates": "Egyptian governorates",
+  "stats.recovery": "Recovery rate",
+
+  // how
+  "how.eyebrow": "How it works",
+  "how.title": "Four steps to protection and recovery",
+  "how.s1.title": "Create your report",
+  "how.s1.desc": "Add item details, photos, invoices, and supporting evidence.",
+  "how.s2.title": "Verify your identity",
+  "how.s2.desc": "We verify your identity to protect every party on the platform.",
+  "how.s3.title": "Alert verified shops",
+  "how.s3.desc": "Reports reach our trusted shop network in your area and across Egypt.",
+  "how.s4.title": "Confirm recovery",
+  "how.s4.desc": "When found, ownership is verified and parties are connected safely.",
+
+  // for shops section (home)
+  "fs.eyebrow": "For Jewelry Shops",
+  "fs.title.1": "Join Egypt's largest",
+  "fs.title.2": "trust network",
+  "fs.title.3": "for gold shops",
+  "fs.subtitle": "Protect your reputation, be the first to know about stolen items, and show your customers your commitment with our golden verified badge.",
+  "fs.cta": "Register your shop",
+  "fs.f1": "Verified badge and official certificate",
+  "fs.f2": "Instant alerts on every report in your area",
+  "fs.f3": "Featured in the public Trusted Shops directory",
+  "fs.f4": "Professional dashboard with analytics and tools",
+  "fs.f5": "Submit reports on behalf of customers",
+  "fs.f6": "Suspicious item detection in your showroom",
+  "fs.card.badge": "Verified Badge",
+  "fs.card.shop": "Emerald Jewelry Shop",
+  "fs.card.reports": "Reports",
+  "fs.card.matches": "Matches",
+  "fs.card.rating": "Rating",
+  "fs.card.alert": "New alert: Gold necklace — Maadi",
+  "fs.card.match": "Possible match: Lost diamond ring",
+
+  // for users
+  "fu.eyebrow": "For Users",
+  "fu.title": "Everything you need to protect and recover your jewelry",
+  "fu.f1.title": "Protect your jewelry",
+  "fu.f1.desc": "Register your valuables before any incident for fast access when needed.",
+  "fu.f2.title": "Quick reporting",
+  "fu.f2.desc": "Create a lost or stolen report in minutes with all details and evidence.",
+  "fu.f3.title": "Boost your report",
+  "fu.f3.desc": "Multiply recovery chances by boosting your report to a wider network.",
+  "fu.f4.title": "AI assistance",
+  "fu.f4.desc": "Smart AI helps improve descriptions and reconstruct item images.",
+
+  // shops preview
+  "sp.eyebrow": "Trusted Shops Directory",
+  "sp.title": "Shops Findex trusts",
+  "sp.viewAll": "View all",
+
+  // boosted preview
+  "bp.eyebrow": "Boosted Reports",
+  "bp.title": "Reports needing your attention",
+  "bp.viewAll": "Browse all reports",
+  "bp.boosted": "Boosted",
+
+  // safety
+  "safety.eyebrow": "Safety & Verification",
+  "safety.title": "A platform built on trust",
+  "safety.s1.title": "Full encryption",
+  "safety.s1.desc": "All sensitive documents are encrypted and never public.",
+  "safety.s2.title": "Identity verification",
+  "safety.s2.desc": "Identity checks for users and shops before publishing.",
+  "safety.s3.title": "Human moderation",
+  "safety.s3.desc": "A moderation team reviews reports and claims.",
+  "safety.s4.title": "Safe connection",
+  "safety.s4.desc": "We connect parties safely without physical handover.",
+
+  // pricing preview
+  "price.eyebrow": "Pricing",
+  "price.title": "Subscription plans for every shop",
+  "price.basic": "Basic",
+  "price.pro": "Professional",
+  "price.enterprise": "Enterprise",
+  "price.popular": "Most Popular",
+  "price.month": "month",
+  "price.custom": "Custom",
+  "price.choose": "Choose plan",
+  "price.currency": "EGP",
+  "price.basic.f1": "Verified badge",
+  "price.basic.f2": "Local area alerts",
+  "price.basic.f3": "Up to 50 reports/month",
+  "price.basic.f4": "Public shop page",
+  "price.pro.f1": "Everything in Basic",
+  "price.pro.f2": "Nationwide alerts",
+  "price.pro.f3": "Advanced analytics",
+  "price.pro.f4": "Unlimited reports",
+  "price.pro.f5": "Priority support",
+  "price.ent.f1": "Dedicated support",
+  "price.ent.f2": "Private API",
+  "price.ent.f3": "Sub-accounts",
+  "price.ent.f4": "Multi-branch management",
+  "price.ent.f5": "Account manager",
+
+  // FAQ
+  "faq.eyebrow": "FAQ",
+  "faq.title": "Quick answers to your top questions",
+  "faq.q1": "Is Findex free for users?",
+  "faq.a1": "Yes, basic reporting is completely free. Fees only apply to optional report boosts and AI assistance services.",
+  "faq.q2": "How are shops verified?",
+  "faq.a2": "Each shop submits their business license and commercial documents, reviewed by our team before granting the verified badge.",
+  "faq.q3": "Are my data and photos safe?",
+  "faq.a3": "Yes. All sensitive documents like invoices and ID cards are stored privately and encrypted, never appearing in public reports.",
+  "faq.q4": "What happens when my item is found?",
+  "faq.a4": "Ownership is verified through submitted evidence, then we safely connect the parties. Findex does not handle physical delivery.",
+  "faq.q5": "Can shops report suspicious items?",
+  "faq.a5": "Yes, verified shops can create suspicious item reports visible only to shops, moderators, and admins.",
+
+  // CTA
+  "cta.title.1": "Join the",
+  "cta.title.2": "trust network",
+  "cta.title.3": "today",
+  "cta.subtitle": "Get started in minutes. Whether you're a jewelry owner who wants protection or a shop seeking stronger reputation.",
+  "cta.user": "Create free account",
+  "cta.shop": "Join as a shop",
+
+  // footer
+  "footer.about": "Egypt's trust network connecting jewelry owners with verified shops to recover stolen and lost items.",
+  "footer.platform": "Platform",
+  "footer.company": "Company",
+  "footer.contact": "Contact",
+  "footer.terms": "Terms",
+  "footer.privacy": "Privacy",
+  "footer.rights": "All rights reserved.",
+  "footer.madeIn": "Crafted with care in Egypt 🇪🇬",
+
+  // common
+  "common.search": "Search",
+  "common.filter": "Filter",
+  "common.cairo": "Cairo, Egypt",
+
+  // login/register
+  "auth.login.title": "Welcome back",
+  "auth.login.subtitle": "Sign in to your Findex account",
+  "auth.email": "Email",
+  "auth.password": "Password",
+  "auth.signIn": "Sign in",
+  "auth.noAccount": "Don't have an account?",
+  "auth.haveAccount": "Already have an account?",
+  "auth.createAccount": "Create account",
+  "auth.register.title": "Join Findex",
+  "auth.register.subtitle": "Choose your account type",
+  "auth.user": "User",
+  "auth.shop": "Jewelry Shop",
+  "auth.firstName": "First name",
+  "auth.lastName": "Last name",
+  "auth.phone": "Phone",
+  "auth.shopName": "Business name",
+  "auth.commercialReg": "Commercial registry number",
+  "auth.create": "Create account",
+  "auth.registerShop": "Register shop",
+
+  // page heros
+  "page.about.eyebrow": "About Findex",
+  "page.about.title": "We build trust in Egypt's jewelry market",
+  "page.about.subtitle": "Findex is an Egyptian platform specialized in connecting jewelry owners with verified gold shops to fight theft and ease recovery.",
+  "page.how.eyebrow": "How it works",
+  "page.how.title": "Six simple steps from report to recovery",
+  "page.how.subtitle": "A clear, transparent process designed to protect every party.",
+  "page.shops.eyebrow": "Trusted Shops Directory",
+  "page.shops.title": "Verified jewelry shops in Egypt",
+  "page.reports.eyebrow": "Browse Reports",
+  "page.reports.title": "Active jewelry reports",
+  "page.reports.subtitle": "Search and filter published reports. Help recover an item.",
+  "page.pricing.eyebrow": "Pricing",
+  "page.pricing.title": "Transparent pricing for everyone",
+  "page.pricing.subtitle": "Subscription plans for shops + boost packages for reports. Pay only for what you use.",
+  "page.faq.eyebrow": "FAQ",
+  "page.faq.title": "Everything you want to know",
+  "page.contact.eyebrow": "Contact",
+  "page.contact.title": "We're here to help",
+  "page.contact.subtitle": "Our team is ready to answer your questions.",
+  "page.terms.eyebrow": "Terms & Conditions",
+  "page.terms.title": "Findex platform terms of use",
+  "page.privacy.eyebrow": "Privacy Policy",
+  "page.privacy.title": "How we protect your data",
+  "page.forShops.eyebrow": "For Jewelry Shops",
+  "page.forShops.title": "Join Egypt's largest gold shop trust network",
+  "page.forShops.subtitle": "Protect your reputation, multiply your credibility, and become part of the solution to jewelry theft.",
+  "page.forShops.benefits": "Subscription benefits",
+  "page.forShops.steps": "Onboarding steps",
+  "page.forShops.cta": "Register your shop now",
+
+  // language
+  "lang.toggle": "العربية",
+};
+
+const ar: Dict = {
+  "nav.home": "الرئيسية",
+  "nav.how": "كيف يعمل",
+  "nav.forShops": "لمحلات المجوهرات",
+  "nav.shops": "المحلات الموثقة",
+  "nav.reports": "تصفح البلاغات",
+  "nav.pricing": "الأسعار",
+  "nav.about": "عن فايندكس",
+  "nav.faq": "الأسئلة الشائعة",
+  "nav.contact": "تواصل معنا",
+  "nav.login": "تسجيل الدخول",
+  "nav.register": "ابدأ الآن",
+  "nav.menu": "القائمة",
+  "brand.tagline": "شبكة الثقة للمجوهرات",
+
+  "hero.badge": "شبكة الثقة الأولى للمجوهرات في مصر",
+  "hero.title.1": "استرجع ما يهمك.",
+  "hero.title.2": "احمِ ما هو موثوق.",
+  "hero.subtitle": "فايندكس يربط أصحاب المجوهرات بمحلات الذهب الموثقة في جميع محافظات مصر للإبلاغ عن المفقودات والمسروقات واستردادها بشكل أسرع وأكثر أماناً.",
+  "hero.cta.report": "أبلغ عن مجوهرات مفقودة",
+  "hero.cta.shop": "انضم كمحل مجوهرات",
+  "hero.trust.verified": "محلات موثقة",
+  "hero.trust.encrypted": "بيانات مشفّرة",
+  "hero.trust.alerts": "تنبيهات فورية",
+  "hero.trust.certified": "شهادات اعتماد",
+
+  "stats.shops": "محل موثّق",
+  "stats.reports": "بلاغ نشط",
+  "stats.governorates": "محافظة مصرية",
+  "stats.recovery": "نسبة الاسترداد",
+
+  "how.eyebrow": "كيف يعمل",
+  "how.title": "أربع خطوات للحماية والاسترداد",
+  "how.s1.title": "أنشئ بلاغك",
+  "how.s1.desc": "أضف تفاصيل القطعة، الصور، الفواتير، والأدلة الداعمة.",
+  "how.s2.title": "تحقق من هويتك",
+  "how.s2.desc": "نتحقق من هويتك لحماية كل أطراف المنصة.",
+  "how.s3.title": "تنبيه المحلات الموثقة",
+  "how.s3.desc": "تصل البلاغات لشبكة المحلات في منطقتك ومصر كلها.",
+  "how.s4.title": "تأكيد الاسترداد",
+  "how.s4.desc": "عند العثور، يتم التحقق من الملكية وربط الأطراف بأمان.",
+
+  "fs.eyebrow": "لمحلات المجوهرات",
+  "fs.title.1": "انضم لأكبر",
+  "fs.title.2": "شبكة ثقة",
+  "fs.title.3": "لمحلات الذهب في مصر",
+  "fs.subtitle": "احمِ سمعتك التجارية، كن أول من يعلم بأي قطعة مسروقة، وأظهِر التزامك أمام عملائك بشارة موثوق الذهبية.",
+  "fs.cta": "ابدأ تسجيل محلك",
+  "fs.f1": "شارة موثوق وشهادة اعتماد رسمية",
+  "fs.f2": "تنبيهات فورية بكل البلاغات في منطقتك",
+  "fs.f3": "ظهور في دليل المحلات الموثقة العام",
+  "fs.f4": "لوحة تحكم احترافية مع تحليلات وأدوات",
+  "fs.f5": "إمكانية الإبلاغ نيابة عن العملاء",
+  "fs.f6": "تنبيه عند رصد قطعة مشبوهة في معرضك",
+  "fs.card.badge": "شارة موثوق",
+  "fs.card.shop": "محل الزمرّد للمجوهرات",
+  "fs.card.reports": "بلاغات",
+  "fs.card.matches": "تطابقات",
+  "fs.card.rating": "تقييم",
+  "fs.card.alert": "تنبيه جديد: قلادة ذهب — المعادي",
+  "fs.card.match": "تطابق محتمل: خاتم ألماس مفقود",
+
+  "fu.eyebrow": "للمستخدمين",
+  "fu.title": "كل ما تحتاجه لحماية واسترداد مجوهراتك",
+  "fu.f1.title": "حماية مجوهراتك",
+  "fu.f1.desc": "سجّل قطعك الثمينة قبل أي حادث للوصول السريع عند الحاجة.",
+  "fu.f2.title": "بلاغ سريع",
+  "fu.f2.desc": "أنشئ بلاغ فقد أو سرقة في دقائق مع كل التفاصيل والأدلة.",
+  "fu.f3.title": "تعزيز البلاغ",
+  "fu.f3.desc": "ضاعف فرص الاسترداد بتعزيز بلاغك ووصوله لشبكة أوسع.",
+  "fu.f4.title": "مساعد ذكي",
+  "fu.f4.desc": "ذكاء اصطناعي يساعدك في تحسين الوصف وإعادة بناء الصور.",
+
+  "sp.eyebrow": "دليل المحلات الموثقة",
+  "sp.title": "محلات تثق بها فايندكس",
+  "sp.viewAll": "عرض الكل",
+
+  "bp.eyebrow": "بلاغات معزّزة",
+  "bp.title": "بلاغات تحتاج لانتباهك",
+  "bp.viewAll": "تصفح كل البلاغات",
+  "bp.boosted": "معزّز",
+
+  "safety.eyebrow": "الأمان والتحقق",
+  "safety.title": "منصة بُنيت على الثقة",
+  "safety.s1.title": "تشفير كامل",
+  "safety.s1.desc": "كل المستندات الحساسة مشفّرة وغير عامة.",
+  "safety.s2.title": "تحقق هوية",
+  "safety.s2.desc": "تحقق من هوية المستخدمين والمحلات قبل النشر.",
+  "safety.s3.title": "إشراف بشري",
+  "safety.s3.desc": "فريق إشراف يراجع البلاغات والمطالبات.",
+  "safety.s4.title": "ربط آمن",
+  "safety.s4.desc": "نربط الأطراف بأمان دون مناولة فعلية.",
+
+  "price.eyebrow": "الأسعار",
+  "price.title": "باقات اشتراك تناسب كل محل",
+  "price.basic": "أساسي",
+  "price.pro": "احترافي",
+  "price.enterprise": "مؤسسات",
+  "price.popular": "الأكثر شيوعاً",
+  "price.month": "شهرياً",
+  "price.custom": "حسب الطلب",
+  "price.choose": "اختر الباقة",
+  "price.currency": "ج.م",
+  "price.basic.f1": "شارة موثّق",
+  "price.basic.f2": "تنبيهات منطقتك",
+  "price.basic.f3": "حتى 50 بلاغ شهرياً",
+  "price.basic.f4": "صفحة محل عامة",
+  "price.pro.f1": "كل مزايا الأساسي",
+  "price.pro.f2": "تنبيهات على مستوى الجمهورية",
+  "price.pro.f3": "تحليلات متقدّمة",
+  "price.pro.f4": "بلاغات غير محدودة",
+  "price.pro.f5": "أولوية الدعم",
+  "price.ent.f1": "دعم مخصص",
+  "price.ent.f2": "API خاص",
+  "price.ent.f3": "حسابات فرعية",
+  "price.ent.f4": "إدارة فروع",
+  "price.ent.f5": "مدير حساب",
+
+  "faq.eyebrow": "الأسئلة الشائعة",
+  "faq.title": "أجوبة سريعة على أهم تساؤلاتك",
+  "faq.q1": "هل فايندكس مجاني للمستخدمين؟",
+  "faq.a1": "نعم، إنشاء البلاغات الأساسية مجاني تماماً للمستخدمين. الرسوم تطبق على تعزيز البلاغات أو خدمات المساعدة الذكية الاختيارية.",
+  "faq.q2": "كيف يتم التحقق من المحلات؟",
+  "faq.a2": "كل محل يقدّم رخصة مزاولة النشاط ومستندات تجارية، ويراجعها فريقنا قبل منح شارة الموثّق وإصدار شهادة الاعتماد.",
+  "faq.q3": "هل بياناتي وصوري آمنة؟",
+  "faq.a3": "نعم. كل المستندات الحساسة مثل الفواتير وبطاقات الهوية مخزّنة بشكل خاص ومشفّر، ولا تظهر في البلاغات العامة.",
+  "faq.q4": "ماذا يحدث عند العثور على قطعتي؟",
+  "faq.a4": "يتم التحقق من الملكية عبر الأدلة المقدّمة، ثم نربط الأطراف بشكل آمن. فايندكس لا يتولى التسليم الفعلي للقطعة.",
+  "faq.q5": "هل يمكنني الإبلاغ عن قطعة مشبوهة كمحل؟",
+  "faq.a5": "نعم، المحلات الموثقة يمكنها إنشاء بلاغات قطع مشبوهة تظهر فقط للمحلات والمشرفين والإدارة.",
+
+  "cta.title.1": "انضم إلى",
+  "cta.title.2": "شبكة الثقة",
+  "cta.title.3": "اليوم",
+  "cta.subtitle": "ابدأ خلال دقائق. سواء كنت صاحب مجوهرات تريد حمايتها أو محلاً يبحث عن سمعة أقوى.",
+  "cta.user": "إنشاء حساب مجاني",
+  "cta.shop": "انضم كمحل",
+
+  "footer.about": "شبكة الثقة المصرية لربط أصحاب المجوهرات بمحلات الذهب الموثقة لاسترداد المسروقات والمفقودات.",
+  "footer.platform": "المنصة",
+  "footer.company": "الشركة",
+  "footer.contact": "تواصل",
+  "footer.terms": "الشروط",
+  "footer.privacy": "الخصوصية",
+  "footer.rights": "جميع الحقوق محفوظة.",
+  "footer.madeIn": "صُنع بعناية في مصر 🇪🇬",
+
+  "common.search": "بحث",
+  "common.filter": "فلترة",
+  "common.cairo": "القاهرة، مصر",
+
+  "auth.login.title": "مرحباً بعودتك",
+  "auth.login.subtitle": "سجّل الدخول لحسابك في فايندكس",
+  "auth.email": "البريد الإلكتروني",
+  "auth.password": "كلمة المرور",
+  "auth.signIn": "تسجيل الدخول",
+  "auth.noAccount": "ليس لديك حساب؟",
+  "auth.haveAccount": "لديك حساب؟",
+  "auth.createAccount": "إنشاء حساب",
+  "auth.register.title": "انضم إلى فايندكس",
+  "auth.register.subtitle": "اختر نوع حسابك",
+  "auth.user": "مستخدم",
+  "auth.shop": "محل مجوهرات",
+  "auth.firstName": "الاسم الأول",
+  "auth.lastName": "الاسم الأخير",
+  "auth.phone": "رقم الهاتف",
+  "auth.shopName": "اسم المحل التجاري",
+  "auth.commercialReg": "رقم السجل التجاري",
+  "auth.create": "إنشاء حساب",
+  "auth.registerShop": "سجّل المحل",
+
+  "page.about.eyebrow": "عن فايندكس",
+  "page.about.title": "نبني الثقة في سوق المجوهرات المصري",
+  "page.about.subtitle": "فايندكس منصة مصرية متخصصة في ربط أصحاب المجوهرات بمحلات الذهب الموثقة لمحاربة السرقات وتسهيل الاسترداد.",
+  "page.how.eyebrow": "كيف يعمل",
+  "page.how.title": "ست خطوات بسيطة من البلاغ للاسترداد",
+  "page.how.subtitle": "عملية واضحة، شفافة، ومصممة لحماية كل الأطراف.",
+  "page.shops.eyebrow": "دليل المحلات الموثقة",
+  "page.shops.title": "محلات المجوهرات الموثقة في مصر",
+  "page.reports.eyebrow": "تصفح البلاغات",
+  "page.reports.title": "بلاغات المجوهرات النشطة",
+  "page.reports.subtitle": "ابحث وصفّ البلاغات المنشورة. ساعد في استرداد قطعة.",
+  "page.pricing.eyebrow": "الأسعار",
+  "page.pricing.title": "أسعار شفافة للجميع",
+  "page.pricing.subtitle": "باقات اشتراك للمحلات + حزم تعزيز للبلاغات. ادفع مقابل ما تستخدمه فقط.",
+  "page.faq.eyebrow": "الأسئلة الشائعة",
+  "page.faq.title": "كل ما تريد معرفته",
+  "page.contact.eyebrow": "تواصل معنا",
+  "page.contact.title": "نحن هنا للمساعدة",
+  "page.contact.subtitle": "فريقنا جاهز للرد على استفساراتك.",
+  "page.terms.eyebrow": "الشروط والأحكام",
+  "page.terms.title": "شروط استخدام منصة فايندكس",
+  "page.privacy.eyebrow": "سياسة الخصوصية",
+  "page.privacy.title": "كيف نحمي بياناتك",
+  "page.forShops.eyebrow": "لمحلات المجوهرات",
+  "page.forShops.title": "انضم لأكبر شبكة ثقة لمحلات الذهب في مصر",
+  "page.forShops.subtitle": "احمِ سمعتك، ضاعف مصداقيتك، وكن جزءاً من حل مشكلة سرقات المجوهرات.",
+  "page.forShops.benefits": "مزايا الاشتراك",
+  "page.forShops.steps": "خطوات الانضمام",
+  "page.forShops.cta": "سجّل محلك الآن",
+
+  "lang.toggle": "English",
+};
+
+const dicts: Record<Lang, Dict> = { en, ar };
+
+type Ctx = { lang: Lang; t: (k: string) => string; toggle: () => void; dir: "ltr" | "rtl" };
+const I18nContext = createContext<Ctx | null>(null);
+
+export function I18nProvider({ children }: { children: ReactNode }) {
+  const [lang, setLang] = useState<Lang>("en");
+
+  useEffect(() => {
+    const saved = (typeof window !== "undefined" && localStorage.getItem("findex-lang")) as Lang | null;
+    if (saved === "ar" || saved === "en") setLang(saved);
+  }, []);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    try { localStorage.setItem("findex-lang", lang); } catch {}
+  }, [lang]);
+
+  const value: Ctx = {
+    lang,
+    dir: lang === "ar" ? "rtl" : "ltr",
+    t: (k) => dicts[lang][k] ?? dicts.en[k] ?? k,
+    toggle: () => setLang((l) => (l === "en" ? "ar" : "en")),
+  };
+
+  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
+}
+
+export function useI18n() {
+  const ctx = useContext(I18nContext);
+  if (!ctx) throw new Error("useI18n must be used inside I18nProvider");
+  return ctx;
+}

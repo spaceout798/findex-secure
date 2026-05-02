@@ -150,6 +150,10 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  html[dir="rtl"] body {
     font-family: 'Tajawal', 'Cairo', system-ui, -apple-system, sans-serif;
   }
 
@@ -158,6 +162,14 @@
   }
 
   h1, h2, h3, h4 {
+    font-family: 'Inter', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  html[dir="rtl"] h1,
+  html[dir="rtl"] h2,
+  html[dir="rtl"] h3,
+  html[dir="rtl"] h4 {
     font-family: 'Cairo', 'Tajawal', system-ui, sans-serif;
     letter-spacing: -0.01em;
   }
