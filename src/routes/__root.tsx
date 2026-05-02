@@ -1,6 +1,7 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { I18nProvider } from "@/lib/i18n";
 
 function NotFoundComponent() {
   return (
@@ -29,11 +30,11 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Findex — استرجع ما يهمك. احمِ ما هو موثوق." },
-      { name: "description", content: "فايندكس — منصة مصرية لربط أصحاب المجوهرات بمحلات الذهب الموثقة للإبلاغ عن المسروقات والمفقودات واستردادها." },
+      { title: "Findex — Recover what matters. Protect what's trusted." },
+      { name: "description", content: "Findex connects jewelry owners with verified jewelry shops across Egypt to report, detect, and recover lost or stolen jewelry — faster." },
       { name: "author", content: "Findex" },
-      { property: "og:title", content: "Findex — شبكة الثقة لمحلات المجوهرات" },
-      { property: "og:description", content: "أبلغ، اكتشف، واسترد المجوهرات المفقودة والمسروقة عبر شبكة محلات موثقة في مصر." },
+      { property: "og:title", content: "Findex — Egypt's Jewelry Trust Network" },
+      { property: "og:description", content: "Report, detect, and recover lost or stolen jewelry through Egypt's verified jewelry shop network." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
@@ -58,7 +59,7 @@ export const Route = createRootRoute({
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="en" dir="ltr">
       <head>
         <HeadContent />
       </head>
@@ -71,5 +72,9 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
-  return <Outlet />;
+  return (
+    <I18nProvider>
+      <Outlet />
+    </I18nProvider>
+  );
 }
